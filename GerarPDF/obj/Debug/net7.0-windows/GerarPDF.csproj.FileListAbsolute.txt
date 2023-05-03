@@ -1,0 +1,15 @@
+C:\Users\nobre\OneDrive\Ambiente de Trabalho\Uab\Laboratorio desenv. Soft\Projecto\Codigo\GerarPDF\GerarPDF\obj\Debug\net7.0-windows\GerarPDF.csproj.AssemblyReference.cache
+C:\Users\nobre\OneDrive\Ambiente de Trabalho\Uab\Laboratorio desenv. Soft\Projecto\Codigo\GerarPDF\GerarPDF\obj\Debug\net7.0-windows\GerarPDF.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\nobre\OneDrive\Ambiente de Trabalho\Uab\Laboratorio desenv. Soft\Projecto\Codigo\GerarPDF\GerarPDF\obj\Debug\net7.0-windows\GerarPDF.AssemblyInfoInputs.cache
+C:\Users\nobre\OneDrive\Ambiente de Trabalho\Uab\Laboratorio desenv. Soft\Projecto\Codigo\GerarPDF\GerarPDF\obj\Debug\net7.0-windows\GerarPDF.AssemblyInfo.cs
+C:\Users\nobre\OneDrive\Ambiente de Trabalho\Uab\Laboratorio desenv. Soft\Projecto\Codigo\GerarPDF\GerarPDF\obj\Debug\net7.0-windows\GerarPDF.csproj.CoreCompileInputs.cache
+C:\Users\nobre\OneDrive\Ambiente de Trabalho\Uab\Laboratorio desenv. Soft\Projecto\Codigo\GerarPDF\GerarPDF\bin\Debug\net7.0-windows\GerarPDF.exe
+C:\Users\nobre\OneDrive\Ambiente de Trabalho\Uab\Laboratorio desenv. Soft\Projecto\Codigo\GerarPDF\GerarPDF\bin\Debug\net7.0-windows\GerarPDF.deps.json
+C:\Users\nobre\OneDrive\Ambiente de Trabalho\Uab\Laboratorio desenv. Soft\Projecto\Codigo\GerarPDF\GerarPDF\bin\Debug\net7.0-windows\GerarPDF.runtimeconfig.json
+C:\Users\nobre\OneDrive\Ambiente de Trabalho\Uab\Laboratorio desenv. Soft\Projecto\Codigo\GerarPDF\GerarPDF\bin\Debug\net7.0-windows\GerarPDF.dll
+C:\Users\nobre\OneDrive\Ambiente de Trabalho\Uab\Laboratorio desenv. Soft\Projecto\Codigo\GerarPDF\GerarPDF\bin\Debug\net7.0-windows\GerarPDF.pdb
+C:\Users\nobre\OneDrive\Ambiente de Trabalho\Uab\Laboratorio desenv. Soft\Projecto\Codigo\GerarPDF\GerarPDF\obj\Debug\net7.0-windows\GerarPDF.dll
+C:\Users\nobre\OneDrive\Ambiente de Trabalho\Uab\Laboratorio desenv. Soft\Projecto\Codigo\GerarPDF\GerarPDF\obj\Debug\net7.0-windows\refint\GerarPDF.dll
+C:\Users\nobre\OneDrive\Ambiente de Trabalho\Uab\Laboratorio desenv. Soft\Projecto\Codigo\GerarPDF\GerarPDF\obj\Debug\net7.0-windows\GerarPDF.pdb
+C:\Users\nobre\OneDrive\Ambiente de Trabalho\Uab\Laboratorio desenv. Soft\Projecto\Codigo\GerarPDF\GerarPDF\obj\Debug\net7.0-windows\GerarPDF.genruntimeconfig.cache
+C:\Users\nobre\OneDrive\Ambiente de Trabalho\Uab\Laboratorio desenv. Soft\Projecto\Codigo\GerarPDF\GerarPDF\obj\Debug\net7.0-windows\ref\GerarPDF.dll

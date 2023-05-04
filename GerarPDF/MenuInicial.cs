@@ -5,12 +5,14 @@ public class MenuInicial : Form
     private Button botaoFormularioA;
     private Button botaoFormularioB;
     private Controller controller;
-    public event Action<TipoFormulario> DocumentoSolicitado;
-
+    
+    public delegate void DocumentoSolicitadoEventHandler(TipoDeDocumento tipoDeDocumento);
+    public event DocumentoSolicitadoEventHandler DocumentoSolicitado;
+    
     public MenuInicial(Controller c)
     {
         controller = c;
-        DocumentoSolicitado += controller.AbrirDocumento;
+        DocumentoSolicitado += controller.SolicitarAberturaFormulario;
         
         botaoFormularioA = new Button
         {
@@ -19,7 +21,7 @@ public class MenuInicial : Form
             Width = 180,
             Height = 40
         };
-        botaoFormularioA.Click += (sender, e) => BotaoAberturaNovoFormularioPressionado(TipoFormulario.FormularioA);
+        botaoFormularioA.Click += (sender, e) => BotaoAberturaFormularioClick(TipoDeDocumento.CartaoVisita);
         Controls.Add(botaoFormularioA);
 
         botaoFormularioB = new Button
@@ -29,7 +31,7 @@ public class MenuInicial : Form
             Width = 180,
             Height = 40 
         };
-        botaoFormularioB.Click += (sender, e) => BotaoAberturaNovoFormularioPressionado(TipoFormulario.FormularioB);
+        botaoFormularioB.Click += (sender, e) => BotaoAberturaFormularioClick(TipoDeDocumento.PasseServico);
         Controls.Add(botaoFormularioB);
 
         CentrarBotoes();
@@ -45,8 +47,8 @@ public class MenuInicial : Form
         botaoFormularioB.Location = new Point(centerX - botaoFormularioB.Width / 2, centerY + buttonSpacing / 2);
     }
 
-    private void BotaoAberturaNovoFormularioPressionado(TipoFormulario tipoFormulario)
+    private void BotaoAberturaFormularioClick(TipoDeDocumento tipoDeDocumento)
     {
-        DocumentoSolicitado(tipoFormulario);
+        DocumentoSolicitado(tipoDeDocumento);
     }
 }

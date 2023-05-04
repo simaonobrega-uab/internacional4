@@ -1,9 +1,11 @@
-﻿namespace GerarPDF;
+﻿using System.Diagnostics;
 
-public enum TipoFormulario
+namespace GerarPDF;
+
+public enum TipoDeDocumento
 {
-    FormularioA,
-    FormularioB,
+    CartaoVisita,
+    PasseServico,
 }
 
 public class View
@@ -12,29 +14,40 @@ public class View
     private Model model;
     private MenuInicial menuInicial;
     private FormularioBase formularioAberto;
+    public TipoDeDocumento tipoDeDocumentoAberto;
 
+    public delegate List<string> SolicitarCamposIncorretosSolicitadoEventHandler();
+    public event SolicitarCamposIncorretosSolicitadoEventHandler CamposInvalidosSolicitados;
+
+    
     internal View(Controller c, Model m)
     {
         controller = c;
         model = m;
+        
+        CamposInvalidosSolicitados += () => model.EnviarCamposIncorretos();
     }
-
-    public void MostarMenuInicialSolicitado()
+    
+    // Disponibiliza o Menu Inicial
+    public void ActivarInterface()
     {
         menuInicial = new MenuInicial(controller);
         menuInicial.Show();
     }
     
-    public void AbrirNovoFormulario(TipoFormulario tipoFormulario)
+    // Abertura do formulario escolhido no Menu Inicial
+    public void AbrirFormDocumento(TipoDeDocumento tipoDeDocumento)
     {
         FormularioBase novoFormulario = null;
-        switch (tipoFormulario)
+        switch (tipoDeDocumento)
         {
-            case TipoFormulario.FormularioA:
-                novoFormulario = new FormularioA(controller);
+            case TipoDeDocumento.CartaoVisita:
+                novoFormulario = new CartaoVisita(controller);
+                tipoDeDocumentoAberto = TipoDeDocumento.CartaoVisita;
                 break;
-            case TipoFormulario.FormularioB:
-                novoFormulario = new FormularioB(controller);
+            case TipoDeDocumento.PasseServico:
+                novoFormulario = new PasseServico(controller);
+                tipoDeDocumentoAberto = TipoDeDocumento.PasseServico;
                 break;
         }
         formularioAberto = novoFormulario;
@@ -44,5 +57,16 @@ public class View
     public FormularioBase FormularioAberto()
     {
         return formularioAberto;
+    }
+    
+    public void MostrarCamposFalhou()
+    {
+        var dadosInvalidos = CamposInvalidosSolicitados?.Invoke();
+        formularioAberto.ApresentarCamposInvalidos(dadosInvalidos);
+    }
+
+    public void ApresentarPdf(string nomeDocumento)
+    {
+        Process.Start(new ProcessStartInfo(nomeDocumento) { UseShellExecute = true });
     }
 }

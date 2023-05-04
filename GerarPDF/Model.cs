@@ -1,27 +1,33 @@
-﻿using Microsoft.VisualBasic;
-
-namespace GerarPDF;
+﻿namespace GerarPDF;
 
 public class Model
 {
-    private Controller controller;
-    private View view;
-    public event Action DisponibilizarCamposIncorretosSolicitado;
+    
+    List<string> camposInvalidos = new List<string>();
 
-    public Model(Controller c, View view)
+    public List<string> EnviarCamposIncorretos()
     {
-        controller = c;
-        view = view;
-
-        //DisponibilizarCamposIncorretosSolicitado += FormularioA.MarcarCamposInvalidos;
+        return camposInvalidos;
     }
 
-    public void ValidarInputDados(Dictionary<string,string> dados)
+    public bool ValidarInputDados(Dictionary<string, string> dados)
     {
-        string nome = dados["Nome"];
-        string idade = dados["Idade"];
-        string cargo = dados["Cargo"];
-        
-        
+        camposInvalidos.Clear();
+
+        // Verifica se os dados estão todos preenchidos
+        foreach (KeyValuePair<string, string> campo in dados)
+        {
+            if (string.IsNullOrEmpty(campo.Value))
+            {
+                camposInvalidos.Add(campo.Key);
+            }
+        }
+
+        if (camposInvalidos.Count != 0)
+        {
+            return false;
+        }
+
+        return true;
     }
 }

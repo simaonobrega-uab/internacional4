@@ -1,10 +1,15 @@
+/*
+ * Projecto desenvolvido pela equipa InternacioNal4 no
+ * âmbito da UC Laboratório de desenvolvimento de SW.
+ * 
+ * Alunos: Jeovanny João e Simão Nóbrega
+ */
+ 
 namespace GerarPDF;
 
 static class Program
 {
-    /// <summary>
-    ///  The main entry point for the application.
-    /// </summary>
+
     [STAThread]
     static void Main()
     {

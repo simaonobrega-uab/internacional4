@@ -2,8 +2,8 @@
 
 public class MenuInicial : Form
 {
-    private Button botaoFormularioA;
-    private Button botaoFormularioB;
+    private readonly Button _botaoFormularioA;
+    private readonly Button _botaoFormularioB;
     private Controller controller;
     
     public delegate void DocumentoSolicitadoEventHandler(TipoDeDocumento tipoDeDocumento);
@@ -14,25 +14,25 @@ public class MenuInicial : Form
         controller = c;
         DocumentoSolicitado += controller.SolicitarAberturaFormulario;
         
-        botaoFormularioA = new Button
+        _botaoFormularioA = new Button
         {
             Text = "Formulário A",
             Location = new Point(50, 50),
             Width = 180,
             Height = 40
         };
-        botaoFormularioA.Click += (sender, e) => BotaoAberturaFormularioClick(TipoDeDocumento.CartaoVisita);
-        Controls.Add(botaoFormularioA);
+        _botaoFormularioA.Click += (sender, e) => BotaoAberturaFormularioClick(TipoDeDocumento.CartaoVisita);
+        Controls.Add(_botaoFormularioA);
 
-        botaoFormularioB = new Button
+        _botaoFormularioB = new Button
         {
             Text = "Formulário B",
             Location = new Point(50, 100),
             Width = 180,
             Height = 40 
         };
-        botaoFormularioB.Click += (sender, e) => BotaoAberturaFormularioClick(TipoDeDocumento.PasseServico);
-        Controls.Add(botaoFormularioB);
+        _botaoFormularioB.Click += (sender, e) => BotaoAberturaFormularioClick(TipoDeDocumento.PasseServico);
+        Controls.Add(_botaoFormularioB);
 
         CentrarBotoes();
     }
@@ -43,8 +43,8 @@ public class MenuInicial : Form
         int centerY = ClientSize.Height / 2;
         int buttonSpacing = 20;
 
-        botaoFormularioA.Location = new Point(centerX - botaoFormularioA.Width / 2, centerY - botaoFormularioA.Height - buttonSpacing / 2);
-        botaoFormularioB.Location = new Point(centerX - botaoFormularioB.Width / 2, centerY + buttonSpacing / 2);
+        _botaoFormularioA.Location = new Point(centerX - _botaoFormularioA.Width / 2, centerY - _botaoFormularioA.Height - buttonSpacing / 2);
+        _botaoFormularioB.Location = new Point(centerX - _botaoFormularioB.Width / 2, centerY + buttonSpacing / 2);
     }
 
     private void BotaoAberturaFormularioClick(TipoDeDocumento tipoDeDocumento)

@@ -8,10 +8,10 @@ namespace GerarPDF
     // no menu inicial. Esta classe define também o layout do documento PDF
     public abstract class FormularioBase : Form
     {
-        protected Label labelTitulo;
-        protected TableLayoutPanel tableLayoutPanel;
-        protected Button botaoGerarPdf;
-        protected Controller controller;
+        private Label _labelTitulo;
+        private Button _botaoGerarPdf;
+        private readonly Controller controller;
+        protected TableLayoutPanel TableLayoutPanel;
 
         // Cada formulário define os campos que necessita de gerir
         protected abstract void AdicionarCamposAoFormulario();
@@ -41,17 +41,13 @@ namespace GerarPDF
 
         protected event GerarPdfSolicitadoEventHandler GerarPdfSolicitado;
 
-        public FormularioBase(Controller c)
+        protected FormularioBase(Controller c)
         {
+
             controller = c;
             GerarPdfSolicitado += controller.GerarPdf;
-            InicializarComponentes();
-        }
-
-        // Componentes do layout de cada formulário
-        private void InicializarComponentes()
-        {
-            tableLayoutPanel = new TableLayoutPanel
+            
+            TableLayoutPanel = new TableLayoutPanel
             {
                 ColumnCount = 2,
                 RowCount = 6,
@@ -59,28 +55,36 @@ namespace GerarPDF
                 Margin = new Padding(10),
                 Padding = new Padding(10)
             };
-            Controls.Add(tableLayoutPanel);
+            
+            InicializarComponentes();
+        }
 
-            labelTitulo = new Label
+        // Componentes do layout de cada formulário
+        private void InicializarComponentes()
+        {
+
+            Controls.Add(TableLayoutPanel);
+
+            _labelTitulo = new Label
             {
                 Text = "Preencha os dados solicitados",
                 TextAlign = ContentAlignment.MiddleCenter,
                 AutoSize = true,
             };
 
-            tableLayoutPanel.Controls.Add(labelTitulo, 0, 0);
-            tableLayoutPanel.SetColumnSpan(labelTitulo, 2);
+            TableLayoutPanel.Controls.Add(_labelTitulo, 0, 0);
+            TableLayoutPanel.SetColumnSpan(_labelTitulo, 2);
 
             AdicionarCamposAoFormulario();
 
-            botaoGerarPdf = new Button
+            _botaoGerarPdf = new Button
             {
                 Text = "Gerar PDF",
                 Width = 100,
                 Height = 30
             };
-            botaoGerarPdf.Click += (sender, e) => BotaoGerarPdfPressionado();
-            tableLayoutPanel.Controls.Add(botaoGerarPdf, 1, 6);
+            _botaoGerarPdf.Click += (sender, e) => BotaoGerarPdfPressionado();
+            TableLayoutPanel.Controls.Add(_botaoGerarPdf, 1, 6);
 
             // Definir o tamanho e estilo do formulário
             FormBorderStyle = FormBorderStyle.FixedSingle;
@@ -107,12 +111,13 @@ namespace GerarPDF
             return dados;
         }
 
+        // Define o layout do documento genérico a ser criado pelo programa
         public PdfDocument GerarPdf(Dictionary<string, string> dados, string tipoDocumento)
         {
             // Cria o documento PDF
             PdfDocument document = new PdfDocument();
             document.Info.Title = tipoDocumento;
-            
+
             // Adiciona uma nova página ao documento
             PdfPage page = document.AddPage();
             page.Width = XUnit.FromMillimeter(74);
@@ -122,8 +127,9 @@ namespace GerarPDF
             // Cria objecto XGraphics para desenhar na página
             XGraphics gfx = XGraphics.FromPdfPage(page);
 
-            gfx.DrawString("DOC Corporativo", new XFont("Verdana", 16), XBrushes.Black, new XRect(0, 0, page.Width, 50), XStringFormats.Center);
-            
+            gfx.DrawString("DOC Corporativo", new XFont("Verdana", 16), XBrushes.Black, new XRect(0, 0, page.Width, 50),
+                XStringFormats.Center);
+
             // Definir o fundo do cartão
             XRect rect = new XRect(0, 0, page.Width, page.Height);
             XColor corFundo = XColor.FromArgb(245, 241, 227);
@@ -135,15 +141,17 @@ namespace GerarPDF
             XFont font = new XFont("Verdana", 8);
             XBrush brush2 = XBrushes.Black;
 
-            gfx.DrawString(document.Info.Title, fontTitulo, brush2, new XRect(0, 0, page.Width - 20, 20), XStringFormats.TopCenter);
+            gfx.DrawString(document.Info.Title, fontTitulo, brush2, new XRect(0, 0, page.Width - 20, 20),
+                XStringFormats.TopCenter);
 
             int posicaoCampo = 25;
             foreach (var campo in dados)
             {
-                gfx.DrawString($"{campo.Key}: {campo.Value}", font, brush2, new XRect(10, posicaoCampo, page.Width - 20, 20), XStringFormats.TopLeft);
+                gfx.DrawString($"{campo.Key}: {campo.Value}", font, brush2,
+                    new XRect(10, posicaoCampo, page.Width - 20, 20), XStringFormats.TopLeft);
                 posicaoCampo += 25;
             }
-            
+
             // Desenha uma barra branca no final do documento
             XRect rect2 = new XRect(0, page.Height - 5, page.Width, 5);
             XSolidBrush brush3 = new XSolidBrush(XColor.FromArgb(255, 255, 255));

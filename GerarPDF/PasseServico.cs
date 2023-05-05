@@ -59,17 +59,17 @@
             labelValidade = new Label { Text = "Validade", AutoSize = true };
             textBoxNrTrabalhador = new TextBox { Width = 200 };
 
-            tableLayoutPanel.Controls.Add(labelNome, 0, 1);
-            tableLayoutPanel.Controls.Add(textBoxNome, 1, 1);
+            TableLayoutPanel.Controls.Add(labelNome, 0, 1);
+            TableLayoutPanel.Controls.Add(textBoxNome, 1, 1);
 
-            tableLayoutPanel.Controls.Add(labelNrTrabalhador, 0, 2);
-            tableLayoutPanel.Controls.Add(textBoxValidade, 1, 2);
+            TableLayoutPanel.Controls.Add(labelNrTrabalhador, 0, 2);
+            TableLayoutPanel.Controls.Add(textBoxValidade, 1, 2);
 
-            tableLayoutPanel.Controls.Add(labelCargo, 0, 3);
-            tableLayoutPanel.Controls.Add(textBoxCargo, 1, 3);
+            TableLayoutPanel.Controls.Add(labelCargo, 0, 3);
+            TableLayoutPanel.Controls.Add(textBoxCargo, 1, 3);
             
-            tableLayoutPanel.Controls.Add(labelValidade, 0, 4);
-            tableLayoutPanel.Controls.Add(textBoxNrTrabalhador, 1, 4);
+            TableLayoutPanel.Controls.Add(labelValidade, 0, 4);
+            TableLayoutPanel.Controls.Add(textBoxNrTrabalhador, 1, 4);
         }
     }
 }

@@ -2,32 +2,33 @@
 
 public class Model
 {
-    
-    List<string> camposInvalidos = new List<string>();
+    // Lista que possui o nome dos campos do formulário que possuem
+    // um input inválido.
+    private readonly List<string> _camposInvalidos = new();
 
-    public List<string> EnviarCamposIncorretos()
+    // Retorna os campos inválidos
+    public List<string> EnviarCamposInValidos()
     {
-        return camposInvalidos;
+        return _camposInvalidos;
     }
 
+    // Valida o input do utilizador. Retorna "true" caso todos os campos
+    // estejam preenchidos. // todo: adicionar outras verificações
     public bool ValidarInputDados(Dictionary<string, string> dados)
     {
-        camposInvalidos.Clear();
-
-        // Verifica se os dados estão todos preenchidos
+        _camposInvalidos.Clear();
+        
+        // Adicionar a _camposInvalidos todos os campos por preencher
         foreach (KeyValuePair<string, string> campo in dados)
         {
             if (string.IsNullOrEmpty(campo.Value))
             {
-                camposInvalidos.Add(campo.Key);
+                _camposInvalidos.Add(campo.Key);
             }
         }
 
-        if (camposInvalidos.Count != 0)
-        {
-            return false;
-        }
-
-        return true;
+        return (_camposInvalidos.Count == 0);
     }
 }
+
+

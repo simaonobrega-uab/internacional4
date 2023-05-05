@@ -10,59 +10,67 @@ public enum TipoDeDocumento
 
 public class View
 {
-    private Controller controller;
-    private Model model;
-    private MenuInicial menuInicial;
-    private FormularioBase formularioAberto;
-    public TipoDeDocumento tipoDeDocumentoAberto;
+    private readonly Controller _controller;
+    private readonly Model _model;
+    private MenuInicial _menuInicial;
+    private FormularioBase _formularioAberto;
+    public TipoDeDocumento TipoDeDocumentoAberto;
 
     public delegate List<string> SolicitarCamposIncorretosSolicitadoEventHandler();
     public event SolicitarCamposIncorretosSolicitadoEventHandler CamposInvalidosSolicitados;
 
     
-    internal View(Controller c, Model m)
+    internal View(Controller controller, Model model)
     {
-        controller = c;
-        model = m;
+        _controller = controller;
+        _model = model;
         
-        CamposInvalidosSolicitados += () => model.EnviarCamposIncorretos();
+        CamposInvalidosSolicitados += () => _model.EnviarCamposInValidos();
     }
     
     // Disponibiliza o Menu Inicial
     public void ActivarInterface()
     {
-        menuInicial = new MenuInicial(controller);
-        menuInicial.Show();
+        _menuInicial = new MenuInicial(_controller);
+        _menuInicial.Show();
     }
     
     // Abertura do formulario escolhido no Menu Inicial
     public void AbrirFormDocumento(TipoDeDocumento tipoDeDocumento)
     {
-        FormularioBase novoFormulario = null;
+        FormularioBase? novoFormulario = null;
         switch (tipoDeDocumento)
         {
             case TipoDeDocumento.CartaoVisita:
-                novoFormulario = new CartaoVisita(controller);
-                tipoDeDocumentoAberto = TipoDeDocumento.CartaoVisita;
+                novoFormulario = new CartaoVisita(_controller);
+                TipoDeDocumentoAberto = TipoDeDocumento.CartaoVisita;
                 break;
             case TipoDeDocumento.PasseServico:
-                novoFormulario = new PasseServico(controller);
-                tipoDeDocumentoAberto = TipoDeDocumento.PasseServico;
+                novoFormulario = new PasseServico(_controller);
+                TipoDeDocumentoAberto = TipoDeDocumento.PasseServico;
                 break;
+            default:
+                throw new InvalidOperationException("Documento desconhecido.");
+
         }
-        formularioAberto = novoFormulario;
+        _formularioAberto = novoFormulario;
         novoFormulario.Show();
     }
     
     public FormularioBase FormularioAberto()
     {
-        return formularioAberto;
+        return _formularioAberto;
     }
     
-    public void MostrarCamposFalhou()
+    // Solicita uma indicação visual dos campos inválidos
+    public void MostrarCamposInvalidos()
     {
         var dadosInvalidos = CamposInvalidosSolicitados?.Invoke();
-        formularioAberto.ApresentarCamposInvalidos(dadosInvalidos);
+        if (dadosInvalidos != null)
+        {
+            _formularioAberto.ApresentarCamposInvalidos(dadosInvalidos);
+        }
+        
     }
 
     public void ApresentarPdf(string nomeDocumento)

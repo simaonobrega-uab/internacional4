@@ -16,7 +16,7 @@ public class MenuInicial : Form
         
         _botaoFormularioA = new Button
         {
-            Text = "Formulário A",
+            Text = "Cartão de visita",
             Location = new Point(50, 50),
             Width = 180,
             Height = 40
@@ -26,7 +26,7 @@ public class MenuInicial : Form
 
         _botaoFormularioB = new Button
         {
-            Text = "Formulário B",
+            Text = "Passe de serviço",
             Location = new Point(50, 100),
             Width = 180,
             Height = 40 

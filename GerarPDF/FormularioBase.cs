@@ -83,7 +83,7 @@ namespace GerarPDF
                 Width = 100,
                 Height = 30
             };
-            _botaoGerarPdf.Click += (sender, e) => BotaoGerarPdfPressionado();
+            _botaoGerarPdf.Click += (sender, e) => BotaoGerarPdf_Click();
             TableLayoutPanel.Controls.Add(_botaoGerarPdf, 1, 6);
 
             // Definir o tamanho e estilo do formulário
@@ -94,7 +94,7 @@ namespace GerarPDF
             AutoSizeMode = AutoSizeMode.GrowAndShrink;
         }
 
-        private void BotaoGerarPdfPressionado()
+        private void BotaoGerarPdf_Click()
         {
             GerarPdfSolicitado?.Invoke();
         }
@@ -117,7 +117,8 @@ namespace GerarPDF
             // Cria o documento PDF
             PdfDocument document = new PdfDocument();
             document.Info.Title = tipoDocumento;
-
+            
+            
             // Adiciona uma nova página ao documento
             PdfPage page = document.AddPage();
             page.Width = XUnit.FromMillimeter(74);

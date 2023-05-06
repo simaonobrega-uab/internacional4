@@ -63,7 +63,7 @@ public class Controller
     {
         AberturaFormDocumentoSolicitado(tipoDeDocumento);
     }
-    
+
     // Gera PDF do documento com os dados presentes no formulário
     public void GerarPdf()
     {
@@ -81,16 +81,35 @@ public class Controller
             // Define o título do documento PDF a ser criado
             string tipoDocumentoAberto =
                 _view.TipoDeDocumentoAberto == TipoDeDocumento.CartaoVisita ? "Cartão de Visita" : "Passe de Serviço";
-
             string nomeDocumento = $"{tipoDocumentoAberto}.pdf";
 
             // Criação do documento PDF
-            PdfDocument documentoPdf = ValidacaoFormularioBemSucedida.Invoke(dadosFormulario, tipoDocumentoAberto);
+            try
+            {
+                PdfDocument documentoPdf = ValidacaoFormularioBemSucedida.Invoke(dadosFormulario, tipoDocumentoAberto);
 
-            documentoPdf.Save(nomeDocumento);
-
-            DocumentoSalvo.Invoke(nomeDocumento);
+                try
+                {
+                    documentoPdf.Save(nomeDocumento);
+                    DocumentoSalvo.Invoke(nomeDocumento);
+                }
+                catch (UnauthorizedAccessException ex)
+                {
+                    PdfGestorExcecoes.TratarExcecaoPermissao(ex);
+                }
+                catch (IOException ex)
+                {
+                    PdfGestorExcecoes.TratarExcecaoIo(ex);
+                }
+                catch (Exception ex)
+                {
+                    PdfGestorExcecoes.TratarExcecaoGenerica(ex);
+                }
+            }
+            catch (Exception ex)
+            {
+                PdfGestorExcecoes.TratarExcecaoGenerica(ex);
+            }
         }
     }
-
 }

@@ -118,7 +118,6 @@ namespace GerarPDF
             PdfDocument document = new PdfDocument();
             document.Info.Title = tipoDocumento;
             
-            
             // Adiciona uma nova página ao documento
             PdfPage page = document.AddPage();
             page.Width = XUnit.FromMillimeter(74);

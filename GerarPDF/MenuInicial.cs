@@ -34,17 +34,6 @@ public class MenuInicial : Form
         _botaoFormularioB.Click += (sender, e) => BotaoAberturaFormularioClick(TipoDeDocumento.PasseServico);
         Controls.Add(_botaoFormularioB);
 
-        CentrarBotoes();
-    }
-    
-    private void CentrarBotoes()
-    {
-        int centerX = ClientSize.Width / 2;
-        int centerY = ClientSize.Height / 2;
-        int buttonSpacing = 20;
-
-        _botaoFormularioA.Location = new Point(centerX - _botaoFormularioA.Width / 2, centerY - _botaoFormularioA.Height - buttonSpacing / 2);
-        _botaoFormularioB.Location = new Point(centerX - _botaoFormularioB.Width / 2, centerY + buttonSpacing / 2);
     }
 
     private void BotaoAberturaFormularioClick(TipoDeDocumento tipoDeDocumento)

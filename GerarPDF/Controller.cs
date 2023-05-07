@@ -83,28 +83,24 @@ public class Controller
                 _view.TipoDeDocumentoAberto == TipoDeDocumento.CartaoVisita ? "Cartão de Visita" : "Passe de Serviço";
             string nomeDocumento = $"{tipoDocumentoAberto}.pdf";
 
-            // Criação do documento PDF
+            // Criação do documento PDF e abertura do ficheiro
             try
             {
                 PdfDocument documentoPdf = ValidacaoFormularioBemSucedida.Invoke(dadosFormulario, tipoDocumentoAberto);
-
-                try
-                {
-                    documentoPdf.Save(nomeDocumento);
-                    DocumentoSalvo.Invoke(nomeDocumento);
-                }
-                catch (UnauthorizedAccessException ex)
-                {
-                    PdfGestorExcecoes.TratarExcecaoPermissao(ex);
-                }
-                catch (IOException ex)
-                {
-                    PdfGestorExcecoes.TratarExcecaoIo(ex);
-                }
-                catch (Exception ex)
-                {
-                    PdfGestorExcecoes.TratarExcecaoGenerica(ex);
-                }
+                documentoPdf.Save(nomeDocumento);
+                DocumentoSalvo.Invoke(nomeDocumento);
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                PdfGestorExcecoes.TratarExcecaoPermissao(ex);
+            }
+            catch (InvalidOperationException ex)
+            {
+                PdfGestorExcecoes.TratarExcecaoIo(ex);
+            }
+            catch (FileNotFoundException ex)
+            {
+                PdfGestorExcecoes.TratarExcecaoFileNotFound(ex);
             }
             catch (Exception ex)
             {

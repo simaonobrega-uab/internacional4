@@ -7,6 +7,7 @@ public class PdfGestorExcecoes
     {
         MessageBox.Show($"Não possui autorização para guardar o ficheiro: {ex.Message}", "Erro", MessageBoxButtons.OK,
             MessageBoxIcon.Error);
+        Logger.Log(ex.Message);
     }
 
     // Caso o PDF não consiga ser guardado, é gerada uma excepção do tipo InvalidOperationException 
@@ -14,14 +15,18 @@ public class PdfGestorExcecoes
     {
         MessageBox.Show($"Erro ao salvar o arquivo PDF: {ex.Message}", "Erro", MessageBoxButtons.OK,
             MessageBoxIcon.Error);
+        Logger.Log(ex.Message);
     }
-    
+
     // Caso não seja possível encontrar o caminho especificado
     public static void TratarExcecaoFileNotFound(Exception ex)
     {
-        MessageBox.Show($"Não foi possível encontrar o ficheiro PDF especificado. Verifique o caminho e nome do ficheiro.", "Erro",
+        MessageBox.Show(
+            $"Não foi possível encontrar o ficheiro PDF especificado. Verifique o caminho e nome do ficheiro.", "Erro",
             MessageBoxButtons.OK,
             MessageBoxIcon.Error);
+        Logger.Log(ex.Message);
+            
     }
 
     // Trata todas as outras situações que não foram previamente identificadas
@@ -30,5 +35,6 @@ public class PdfGestorExcecoes
         MessageBox.Show($"Ocorreu um erro inesperado no processo de geração do documento PDF: {ex.Message}", "Erro",
             MessageBoxButtons.OK,
             MessageBoxIcon.Error);
+        Logger.Log(ex.Message);
     }
 }

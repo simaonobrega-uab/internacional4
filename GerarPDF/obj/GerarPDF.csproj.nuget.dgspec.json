@@ -38,6 +38,14 @@
         "net7.0-windows7.0": {
           "targetAlias": "net7.0-windows",
           "dependencies": {
+            "NLog": {
+              "target": "Package",
+              "version": "[5.1.4, )"
+            },
+            "NLog.Config": {
+              "target": "Package",
+              "version": "[4.7.15, )"
+            },
             "PDFsharp-MigraDoc-GDI": {
               "target": "Package",
               "version": "[6.0.0-preview-2, )"

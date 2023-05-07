@@ -9,7 +9,13 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <PackageReference Include="NLog" Version="5.1.4" />
+      <PackageReference Include="NLog.Config" Version="4.7.15" />
       <PackageReference Include="PDFsharp-MigraDoc-GDI" Version="6.0.0-preview-2" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="NLog.config" />
     </ItemGroup>
 
 </Project>

@@ -1,6 +1,6 @@
 ﻿namespace GerarPDF
 {
-    // Define os campos específicos do formulário B.
+    // Define os campos específicos do formulário associado ao passe de serviço
     public class PasseServico : FormularioBase
     {
         private Label labelNome;
@@ -10,37 +10,40 @@
         private TextBox textBoxNome;
         private TextBox textBoxNrTrabalhador;
         private TextBox textBoxCargo;
-        private TextBox textBoxValidade;
-        private Dictionary<TextBox, bool> camposValidos;
+        private DateTimePicker dateTimePickerValidade;
+
+        private Dictionary<Control, bool> camposValidos;
         private Dictionary<TextBox, string> textBoxKey;
 
-        public PasseServico(Controller c, View v) : base(c,v)
+        public PasseServico(Controller c, View v) : base(c, v)
         {
         }
 
-        protected override Dictionary<TextBox, string> TextBoxChave => new Dictionary<TextBox, string>
+        protected override Dictionary<Control, string> TextBoxChave => new()
         {
             { textBoxNome, "Nome" },
-            { textBoxValidade, "NrTrabalhador" },
+            { textBoxNrTrabalhador, "Nr. Trabalhador" },
             { textBoxCargo, "Cargo" },
-            { textBoxNrTrabalhador, "Validade" }
+            { dateTimePickerValidade, "Validade" }
         };
-        
-        private Dictionary<TextBox, bool> _camposValidos;
-        protected override Dictionary<TextBox, bool> CamposValidos
+
+        private Dictionary<Control, bool> _camposValidos;
+
+        protected override Dictionary<Control, bool> CamposValidos
         {
             get
             {
                 if (_camposValidos == null)
                 {
-                    _camposValidos = new Dictionary<TextBox, bool>
+                    _camposValidos = new Dictionary<Control, bool>
                     {
                         { textBoxNome, true },
-                        { textBoxValidade, true },
+                        { textBoxNrTrabalhador, true },
                         { textBoxCargo, true },
-                        { textBoxNrTrabalhador, true }
+                        { dateTimePickerValidade, true }
                     };
                 }
+
                 return _camposValidos;
             }
         }
@@ -51,25 +54,27 @@
             textBoxNome = new TextBox { Width = 200 };
 
             labelNrTrabalhador = new Label { Text = "Nr de Trabalhador:", AutoSize = true };
-            textBoxValidade = new TextBox { Width = 200 };
+            textBoxNrTrabalhador = new TextBox { Width = 200 };
 
             labelCargo = new Label { Text = "Cargo:", AutoSize = true };
             textBoxCargo = new TextBox { Width = 200 };
-            
+
             labelValidade = new Label { Text = "Validade", AutoSize = true };
-            textBoxNrTrabalhador = new TextBox { Width = 200 };
+            dateTimePickerValidade = new DateTimePicker
+                { Width = 200, Format = DateTimePickerFormat.Custom, CustomFormat = "yyyy/MM/dd" };
+
 
             TableLayoutPanel.Controls.Add(labelNome, 0, 1);
             TableLayoutPanel.Controls.Add(textBoxNome, 1, 1);
 
             TableLayoutPanel.Controls.Add(labelNrTrabalhador, 0, 2);
-            TableLayoutPanel.Controls.Add(textBoxValidade, 1, 2);
+            TableLayoutPanel.Controls.Add(textBoxNrTrabalhador, 1, 2);
 
             TableLayoutPanel.Controls.Add(labelCargo, 0, 3);
             TableLayoutPanel.Controls.Add(textBoxCargo, 1, 3);
-            
+
             TableLayoutPanel.Controls.Add(labelValidade, 0, 4);
-            TableLayoutPanel.Controls.Add(textBoxNrTrabalhador, 1, 4);
+            TableLayoutPanel.Controls.Add(dateTimePickerValidade, 1, 4);
         }
     }
 }

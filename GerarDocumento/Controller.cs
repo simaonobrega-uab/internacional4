@@ -1,6 +1,7 @@
-﻿namespace GerarPDF;
-
+﻿using GerarPDF.Interfaces;
 using PdfSharp.Pdf;
+
+namespace GerarPDF;
 
 // Controlador da aplicação Gerar PDF.
 public class Controller
@@ -9,20 +10,20 @@ public class Controller
 
     public delegate void ProgramaIniciadoEventHandler();
     public event ProgramaIniciadoEventHandler ProgramaIniciado;
- 
+
     public delegate void AberturaFormDocumentoSolicitadoEventHandler(TipoDeDocumento tipoDeDocumento);
     public event AberturaFormDocumentoSolicitadoEventHandler AberturaFormDocumentoSolicitado;
 
-    public delegate Dictionary<string, string> DadosFormularioSolicitadoEventHandler();
+    public delegate ICampos DadosFormularioSolicitadoEventHandler();
     public event DadosFormularioSolicitadoEventHandler DadosFormularioSolicitado;
 
-    public delegate bool DadosFormularioRecebidosEventHandler(Dictionary<string, string> dados);
+    public delegate bool DadosFormularioRecebidosEventHandler(ICampos dados);
     public event DadosFormularioRecebidosEventHandler DadosFormularioRecebidos;
 
     public delegate void SinalizarCamposInvalidosEventHandler();
     public event SinalizarCamposInvalidosEventHandler DadosValidados;
 
-    public delegate PdfDocument GerarPdfEventHandler(Dictionary<string, string> dados, string tipoDocumento);
+    public delegate PdfDocument GerarPdfEventHandler(ICampos dados);
     public event GerarPdfEventHandler ValidacaoFormularioBemSucedida;
 
     public delegate void DocumentoSalvoEventHandler(string nomeDocumento);
@@ -41,7 +42,7 @@ public class Controller
         DadosFormularioRecebidos += model.ValidarInputDados;
         DadosValidados += _view.MostrarCamposInvalidos;
         ValidacaoFormularioBemSucedida +=
-            (dados, tipoDocumento) => _view.FormularioAberto().GerarPdf(dados, tipoDocumento);
+            (dados) => _view.GerarPdf(dados);
         DocumentoSalvo += nomeDocumento => _view.ApresentarPdf(nomeDocumento);
     }
 
@@ -71,7 +72,7 @@ public class Controller
         // Se todos os dados estiverem válidos, inicia-se o processo de geraração do PDF
         if (estaoDadosPreenchidos)
         {
-            // Define o título do documento PDF a ser criado
+            // Define o none do documento PDF a ser criado
             string tipoDocumentoAberto =
                 _view.TipoDeDocumentoAberto == TipoDeDocumento.CartaoVisita ? "Cartão de Visita" : "Passe de Serviço";
             string nomeDocumento = $"{tipoDocumentoAberto}.pdf";
@@ -79,9 +80,9 @@ public class Controller
             // Criação do documento PDF e abertura do ficheiro
             try
             {
-                PdfDocument documentoPdf = ValidacaoFormularioBemSucedida.Invoke(dadosFormulario, tipoDocumentoAberto);
-                documentoPdf.Save(nomeDocumento);
-                DocumentoSalvo.Invoke(nomeDocumento);
+                PdfDocument documento = ValidacaoFormularioBemSucedida.Invoke(dadosFormulario);
+
+                SalvarDocumento(documento, nomeDocumento);
             }
             catch (UnauthorizedAccessException ex)
             {
@@ -100,5 +101,11 @@ public class Controller
                 PdfGestorExcecoes.TratarExcecaoGenerica(ex);
             }
         }
+    }
+
+    private void SalvarDocumento(PdfDocument documento, string nomeDocumento)
+    {
+        documento.Save(nomeDocumento);
+        DocumentoSalvo.Invoke(nomeDocumento);
     }
 }

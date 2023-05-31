@@ -1,6 +1,6 @@
 ﻿namespace GerarPDF
 {
-    // Define os campos específicos do formulário B.
+    // Define os campos específicos do formulário associado ao cartão de visita.
     public class CartaoVisita : FormularioBase
     {
         private Label _labelNome;
@@ -11,13 +11,13 @@
         private TextBox _textBoxContacto;
         private TextBox _textBoxCargo;
         private TextBox _textBoxEmail;
-        private Dictionary<TextBox, bool>? _camposValidos;
+        private Dictionary<Control, bool>? _camposValidos;
 
         public CartaoVisita(Controller c, View v) : base(c,v)
         {
         }
 
-        protected override Dictionary<TextBox, string> TextBoxChave => new()
+        protected override Dictionary<Control, string> TextBoxChave => new()
         {
             { _textBoxNome, "Nome" },
             { _textBoxContacto, "Contacto" },
@@ -25,13 +25,13 @@
             { _textBoxEmail, "E-mail" }
         };
         
-        protected override Dictionary<TextBox, bool> CamposValidos
+        protected override Dictionary<Control, bool> CamposValidos
         {
             get
             {
                 if (_camposValidos == null)
                 {
-                    _camposValidos = new Dictionary<TextBox, bool>
+                    _camposValidos = new Dictionary<Control, bool>
                     {
                         { _textBoxNome, true },
                         { _textBoxContacto, true },

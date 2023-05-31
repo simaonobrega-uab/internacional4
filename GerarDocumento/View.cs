@@ -1,12 +1,8 @@
 ﻿using System.Diagnostics;
+using GerarPDF.Interfaces;
+using PdfSharp.Pdf;
 
 namespace GerarPDF;
-
-public enum TipoDeDocumento
-{
-    CartaoVisita,
-    PasseServico,
-}
 
 public class View
 {
@@ -93,6 +89,38 @@ public class View
     }
    
 
+    // Gera e retorna um documento PDF
+    public PdfDocument GerarPdf(ICampos dados)
+    {
+
+        // Cria o layout adequado com base no tipo de documento/formulário
+        ILayoutBuilder layoutBuilder = EscolherLayoutBuilder(TipoDeDocumentoAberto);
+        
+        // Serviço de geração de PDF
+        GeradorPdf geraradorPdf = new GeradorPdf(dados, TipoDeDocumentoAberto, layoutBuilder);
+        
+        // Cria e retorna o Pdf final
+        return geraradorPdf.CriaPdf();
+    }
+    
+    // Define o layout adequado com base no tipo de documento/formulário
+    private ILayoutBuilder EscolherLayoutBuilder(TipoDeDocumento tipoDocumento)
+    {
+        
+        if (tipoDocumento == TipoDeDocumento.CartaoVisita)
+        {
+            return new LayoutCartaoVisita();
+        }
+        
+        if (tipoDocumento == TipoDeDocumento.PasseServico)
+        {
+            return new LayoutPasseServico();
+        }
+
+        // todo: definir um Layout padrão
+        return null;
+    }
+    
     public void ApresentarPdf(string nomeDocumento)
     {
         Process.Start(new ProcessStartInfo(nomeDocumento) {UseShellExecute = true});

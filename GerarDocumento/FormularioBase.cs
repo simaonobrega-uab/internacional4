@@ -1,6 +1,5 @@
-﻿using PdfSharp;
-using PdfSharp.Drawing;
-using PdfSharp.Pdf;
+﻿using PdfSharp.Pdf;
+using GerarPDF.Interfaces;
 
 namespace GerarPDF
 {
@@ -21,15 +20,14 @@ namespace GerarPDF
 
         // TextBox é um mapa entre as TextBox do formulário e os nomes das chaves
         // dos campos de texto.
-        protected abstract Dictionary<TextBox, string> TextBoxChave { get; }
-        protected abstract Dictionary<TextBox, bool> CamposValidos { get; }
-        
+        protected abstract Dictionary<Control, string> TextBoxChave { get; }
+        protected abstract Dictionary<Control, bool> CamposValidos { get; }
+
         protected FormularioBase(Controller c, View v)
         {
-
             controller = c;
             _view = v;
-            
+
             TableLayoutPanel = new TableLayoutPanel
             {
                 ColumnCount = 2,
@@ -38,29 +36,27 @@ namespace GerarPDF
                 Margin = new Padding(10),
                 Padding = new Padding(10)
             };
-            
+
             InicializarComponentes();
         }
 
         public void ApresentarCamposInvalidos(List<string> camposInvalidos)
         {
-            foreach (TextBox campo in TextBoxChave.Keys)
+            foreach (Control campo in TextBoxChave.Keys)
             {
                 CamposValidos[campo] = !camposInvalidos.Contains(TextBoxChave[campo]);
                 DefinirCorTextBox(campo, CamposValidos[campo]);
             }
         }
 
-        private void DefinirCorTextBox(TextBox campo, bool isValid)
+        private void DefinirCorTextBox(Control campo, bool isValid)
         {
             campo.BackColor = isValid ? Color.White : Color.Red;
         }
 
-
         // Componentes do layout de cada formulário
         private void InicializarComponentes()
         {
-
             Controls.Add(TableLayoutPanel);
 
             _labelTitulo = new Label
@@ -98,22 +94,22 @@ namespace GerarPDF
         }
 
         // Disponibilza os dados inseridos pelo utilizador ao controlador
-        public Dictionary<string, string> EnviarDados()
+        public ICampos EnviarDados()
         {
-            var dados = new Dictionary<string, string>();
+            var dados = new Campos();
             foreach (var campo in TextBoxChave)
             {
-                dados[campo.Value] = campo.Key.Text;
+                if (campo.Key is DateTimePicker dateTimePicker)
+                {
+                    dados.AdicionarCampo(new DataCampo(campo.Value, dateTimePicker.Value));
+                }
+                else
+                {
+                    dados.AdicionarCampo(new StringCampo(campo.Value, campo.Key.Text));
+                }
             }
 
             return dados;
-        }
-
-        
-        public PdfDocument GerarPdf(Dictionary<string, string> dados, string tipoDocumento)
-        {
-            GeradorPdf gerador = new GeradorPdf(dados, tipoDocumento);
-            return gerador.CriaPdf();
         }
     }
 }

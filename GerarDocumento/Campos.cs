@@ -6,7 +6,7 @@ namespace GerarPDF
     public class Campos : ICampos
     {
         private List<ICampo> _campos = new();
-        private ICampos _camposInvalidos = new Campos();
+        private List<ICampo> _camposInvalidos = new();
 
         public void AdicionarCampo(ICampo campo)
         {
@@ -24,15 +24,15 @@ namespace GerarPDF
         }
 
         // Validação de todos os campos associado à lista _campos
-        public ICampos ValidarCampos()
+        public List<ICampo> ValidarCampos()
         {
-            _camposInvalidos = new Campos();
+            _camposInvalidos.Clear();
 
             foreach (ICampo campo in _campos)
             {
                 if (!campo.IsValid())
                 {
-                    _camposInvalidos.AdicionarCampo(campo);
+                    _camposInvalidos.Add(campo);
                 }
             }
 

@@ -4,5 +4,5 @@
 public interface ICampos : IEnumerable<ICampo>
 {
     void AdicionarCampo(ICampo campo);
-    ICampos ValidarCampos();
+    List<ICampo> ValidarCampos();
 }

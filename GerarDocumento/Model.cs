@@ -6,7 +6,7 @@ public class Model
 {
     // Lista que possui o nome dos campos do formulário que possuem
     // um input inválido.
-    private ICampos _camposInvalidos = new Campos();
+    private List<ICampo> _camposInvalidos = new();
 
     // Retorna os campos inválidos
     public List<string> EnviarCamposInValidos()

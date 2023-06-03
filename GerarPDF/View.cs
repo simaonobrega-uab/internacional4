@@ -18,19 +18,12 @@ public class View
     public delegate void DocumentoSolicitadoEventHandler(TipoDeDocumento tipoDeDocumento);
     public event DocumentoSolicitadoEventHandler DocumentoSolicitado;
     
-    protected delegate void GerarPdfSolicitadoEventHandler();
-    protected event GerarPdfSolicitadoEventHandler GerarPdfSolicitado;
+    public delegate void GerarPdfSolicitadoEventHandler();
+    public event GerarPdfSolicitadoEventHandler GerarPdfSolicitado;
 
     
-    internal View(Controller controller, Model model)
+    internal View()
     {
-        _controller = controller;
-        _model = model;
-        
-        CamposInvalidosSolicitados += () => _model.EnviarCamposInValidos();
-        DocumentoSolicitado += controller.SolicitarAberturaFormulario;
-        GerarPdfSolicitado += controller.GerarPdf;
-
     }
     
     public void BotaoGerarPdf_Click()
@@ -124,5 +117,10 @@ public class View
     public void ApresentarPdf(string nomeDocumento)
     {
         Process.Start(new ProcessStartInfo(nomeDocumento) {UseShellExecute = true});
+    }
+    
+    public void MostrarErro(string mensagemErro)
+    {
+        MessageBox.Show(mensagemErro, "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
     }
 }

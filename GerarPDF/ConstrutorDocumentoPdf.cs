@@ -15,6 +15,10 @@ public class ConstrutorDocumentoPdf
         _tipoDocumento = tipoDocumento.GetTitulo();
     }
 
+    // Restante código necessário à criação do PDF
+    // (eliminado para demonstração das interfaces)
+    
+    
     public void DefinirTitulo(string titulo)
     {
         if (string.IsNullOrWhiteSpace(titulo))

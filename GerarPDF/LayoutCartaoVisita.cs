@@ -1,7 +1,8 @@
 ﻿using PdfSharp.Drawing;
 namespace GerarPDF;
 
-// Define os parâmetros específicos do Layout do Pdf "Cartão de Visita"
+// Define os parâmetros específicos do Layout
+// do Pdf "Cartão de Visita"
 public class LayoutCartaoVisita : LayoutBase
 {
 
@@ -11,3 +12,6 @@ public class LayoutCartaoVisita : LayoutBase
   }
   
 }
+
+
+

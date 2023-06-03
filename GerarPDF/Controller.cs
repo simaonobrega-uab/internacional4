@@ -7,6 +7,7 @@ namespace GerarPDF;
 public class Controller
 {
     private readonly View _view;
+    private readonly Model _model;
 
     public delegate void ProgramaIniciadoEventHandler();
     public event ProgramaIniciadoEventHandler ProgramaIniciado;
@@ -32,18 +33,22 @@ public class Controller
     public Controller()
     {
         // Conexão dos componentes do estilo arq. MVC
-        var model = new Model();
-        _view = new View(this, model);
+        _model = new Model();
+        _view = new View();
 
         // Associação dos métodos relevantes aos eventos do controlador
         ProgramaIniciado += _view.ActivarInterface;
         AberturaFormDocumentoSolicitado += _view.AbrirFormDocumento;
         DadosFormularioSolicitado += () => _view.FormularioAberto().EnviarDados();
-        DadosFormularioRecebidos += model.ValidarInputDados;
+        DadosFormularioRecebidos += _model.ValidarInputDados;
         DadosValidados += _view.MostrarCamposInvalidos;
         ValidacaoFormularioBemSucedida +=
             (dados) => _view.GerarPdf(dados);
         DocumentoSalvo += nomeDocumento => _view.ApresentarPdf(nomeDocumento);
+
+        _view.DocumentoSolicitado += SolicitarAberturaFormulario;
+        _view.GerarPdfSolicitado += GerarPdf;
+        _view.CamposInvalidosSolicitados += () => _model.EnviarCamposInValidos();
     }
 
     public void IniciarPrograma()
@@ -81,24 +86,31 @@ public class Controller
             try
             {
                 PdfDocument documento = ValidacaoFormularioBemSucedida.Invoke(dadosFormulario);
-
                 SalvarDocumento(documento, nomeDocumento);
             }
             catch (UnauthorizedAccessException ex)
             {
-                PdfGestorExcecoes.TratarExcecaoPermissao(ex);
+                var mensagemErro = PdfGestorExcecoes.TratarExcecaoPermissao(ex);
+                _model.LogErro(ex.Message);
+                _view.MostrarErro(mensagemErro);
             }
             catch (InvalidOperationException ex)
             {
-                PdfGestorExcecoes.TratarExcecaoIo(ex);
+                var mensagemErro = PdfGestorExcecoes.TratarExcecaoIo(ex);
+                _model.LogErro(ex.Message);
+                _view.MostrarErro(mensagemErro);
             }
             catch (FileNotFoundException ex)
             {
-                PdfGestorExcecoes.TratarExcecaoFileNotFound(ex);
+                var mensagemErro = PdfGestorExcecoes.TratarExcecaoFileNotFound(ex);
+                _model.LogErro(ex.Message);
+                _view.MostrarErro(mensagemErro);
             }
             catch (Exception ex)
             {
-                PdfGestorExcecoes.TratarExcecaoGenerica(ex);
+                var mensagemErro = PdfGestorExcecoes.TratarExcecaoGenerica(ex);
+                _model.LogErro(ex.Message);
+                _view.MostrarErro(mensagemErro);
             }
         }
     }

@@ -6,19 +6,21 @@ using PdfSharp.Pdf;
 namespace GerarPDF;
 
 // - Define o layout base dos cartões disponíveis.
-// - Por agora, é dada somente a possibilidade de definir a cor de fundo a partir do método
-//   DefinirCorFundo(). Criar novos métodos abstractos caso seja necessária maior flexibilidade.
+// - Criar novos métodos abstractos caso seja necessária maior flexibilidade.
 public abstract class LayoutBase : ILayoutBuilder
 {
     public void ConstruirLayout(PdfDocument documento, string titulo, ICampos campos)
     {
         XColor corFundo = DefinirCorFundo();
         documento.Info.Title = titulo;
+        
+        // Restante layout do PDF definido aqui (eliminado para
+        // facilitar a demonstração da aplicação das interfaces criadas)
 
         PdfPage page = documento.AddPage();
-        page.Width = XUnit.FromMillimeter(74);
-        page.Height = XUnit.FromMillimeter(52);
-        
+
+        page.Width = XUnit.FromMillimeter(60);
+        page.Height = XUnit.FromMillimeter(50);
         page.Orientation = PageOrientation.Portrait;
 
         XGraphics gfx = XGraphics.FromPdfPage(page);
@@ -38,6 +40,7 @@ public abstract class LayoutBase : ILayoutBuilder
         gfx.DrawString(documento.Info.Title, fontTitulo, brush2, new XRect(0, 0, page.Width - 20, 20),
             XStringFormats.TopCenter);
 
+
         int posicaoCampo = 25;
         foreach (var campo in campos)
         {
@@ -54,3 +57,6 @@ public abstract class LayoutBase : ILayoutBuilder
     // Método a ser implementado pela própria classe
     protected abstract XColor DefinirCorFundo();
 }
+
+
+

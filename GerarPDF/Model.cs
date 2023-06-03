@@ -22,4 +22,10 @@ public class Model
 
         return (_camposInvalidos.Count() == 0);
     }
+    
+    // Log dos erros
+    public void LogErro(string mensagem)
+    {
+        Logger.Log(mensagem);
+    }
 }
